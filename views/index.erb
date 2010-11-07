@@ -45,7 +45,10 @@ var gallery = {
         },
         loaded: function(img, loaded, total) {
             $("#indicator").html("Loaded: "+loaded+"/"+total);
+            $(img).addClass('resized');
             $("#full-screen").append(img);
+            $('.resized').resize({maxHeight: 150 });
+            
         },
         loaded_all: function(loaded, total) {
             $("#indicator").html("Loaded: "+loaded+"/"+total+". Done!");
