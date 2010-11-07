@@ -1,1 +1,76 @@
-sss
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>preloader</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="generator" content="Geany 0.16" />
+</head>
+
+<body>
+    <div id='status-text'></div>
+    <p id="indicator">Waiting for click</p>
+    <p id="full-screen">
+    
+    </p>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/ext.js"></script>
+    <script type="text/javascript">
+
+var gallery = {
+  
+  flickrGet: function(options){
+    images = [];
+    settings = $.extend({
+      flickr_resource_uri:"/photos/" ,
+      tag: "",
+    },options);
+
+    $.getJSON(settings.flickr_resource_uri+settings.tag+"&jsoncallback=?", gallery.buildImageList);
+  },
+
+  buildImageList: function(data){
+   $.each(data.photos.photo, function (i,item){
+      images.push('http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_m.jpg');
+       });
+   gallery.preloadImages(images);              
+  },
+
+  preloadImages: function(images){
+    //console.log(images);
+     $.preload(images, {
+        init: function(loaded, total) {
+            $("#indicator").html("Loaded: "+loaded+"/"+total);
+        },
+        loaded: function(img, loaded, total) {
+            $("#indicator").html("Loaded: "+loaded+"/"+total);
+            $("#full-screen").append(img);
+        },
+        loaded_all: function(loaded, total) {
+            $("#indicator").html("Loaded: "+loaded+"/"+total+". Done!");
+        }
+    });
+
+  },
+
+  setupAjaxCallbacks: function(){
+    $('body').ajaxStart(function(){$('#status-text').show().text("Loading...");});                    
+    $('body').ajaxStop(function(){$('#status-text').fadeOut();});                    
+    $('body').ajaxError(function (event, xhr, ajaxOptions, thrownError) {
+      console.log("XHR Response: " + JSON.stringify(xhr));
+    });
+
+  }
+};
+
+$(function() {
+    gallery.setupAjaxCallbacks();
+    gallery.flickrGet({tag:"bruggi,3g0ph0t0"});
+});
+</script>
+
+</body>
+</html>
+
+
