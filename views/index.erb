@@ -24,7 +24,7 @@ var gallery = {
     images = [];
     settings = $.extend({
       flickr_resource_uri:"/photos/" ,
-      tag: "",
+      tag: ""
     },options);
 
     $.getJSON(settings.flickr_resource_uri+settings.tag+"&jsoncallback=?", gallery.buildImageList);
