@@ -27,7 +27,7 @@ var gallery = {
       tag: ""
     },options);
 
-    $.getJSON(settings.flickr_resource_uri+settings.tag+"&jsoncallback=?", gallery.buildImageList);
+    $.getJSON(settings.flickr_resource_uri+settings.tag, gallery.buildImageList);
   },
 
   buildImageList: function(data){
