@@ -7,6 +7,11 @@ use Rack::Auth::Basic do |username, password|
   [username, password] == ['intra', 'visti']
 end
 
+configure do
+  require 'dalli'
+  CACHE = Dalli::Client.new()  
+end
+
 
 get '/' do
   erb :index  
@@ -25,14 +30,18 @@ def get_photos(tags)
   puts (tags)
   error 404, "Photos not found" if has_bad_tags?(tags)
   
-  fl = Flickr.new()
-  photos = fl.connection(tags)
-  puts photos
+  
+  
+  #puts photos
+  photos =  CACHE.get(tags)
+  return photos unless photos.nil?
+  photos = Flickr.new().connection(tags)
+  CACHE.set(tags, photos, 120)
   return photos
 end
 
 def has_bad_tags?(tags)
-  tags.split('&')[0].split(',').each do |tag|
+  tags.split(',').each do |tag|
     return true unless TAGS.include?(tag)
   end
   false
