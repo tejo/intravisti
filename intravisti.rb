@@ -29,15 +29,10 @@ end
 def get_photos(tags)
   puts (tags)
   error 404, "Photos not found" if has_bad_tags?(tags)
-  
-  
-  
-  #puts photos
-  photos =  CACHE.get(tags)
-  return photos unless photos.nil?
-  photos = Flickr.new().connection(tags)
-  CACHE.set(tags, photos, 120)
-  return photos
+
+  return fetch(tags, :expire_in => 60 ) do
+    Flickr.new().connection(tags)
+  end
 end
 
 def has_bad_tags?(tags)
@@ -47,4 +42,11 @@ def has_bad_tags?(tags)
   false
 end
 
+def fetch(name, options = {})
+  value = CACHE.get(name)
+  if block_given? && value.nil?
+    CACHE.set(name, value = yield, options[:expire_in] || 86400)
+  end
+  value
+end
 
