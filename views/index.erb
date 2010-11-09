@@ -20,8 +20,9 @@
 
 var gallery = {
   
+  images: [],
+
   flickrGet: function(options){
-    images = [];
     settings = $.extend({
       flickr_resource_uri:"/photos/" ,
       tag: ""
@@ -32,9 +33,9 @@ var gallery = {
 
   buildImageList: function(data){
    $.each(data.photos.photo, function (i,item){
-      images.push('http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_m.jpg');
+      gallery.images.push('http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_m.jpg');
        });
-   gallery.preloadImages(images);              
+   gallery.preloadImages(gallery.images);              
   },
 
   preloadImages: function(images){
