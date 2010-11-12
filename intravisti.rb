@@ -18,7 +18,8 @@ get '/' do
 end
 
 get '/:tags' do
-  get_photos(params[:tags]) 
+  get_photos(params[:tags])
+  erb :photos 
 end
 
 get '/photos/:tags' do

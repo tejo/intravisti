@@ -5,60 +5,7 @@
   <head>
     <title>intravisti</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <style type="text/css" media="screen"> 
-
-
-      img#bgimg {
-        /* Set rules to fill background */
-        min-height: 100%;
-        min-width: 1024px;
-
-        /* Set up proportionate scaling */
-        width: 100%;
-        height: auto;
-
-        /* Set up positioning */
-        position: fixed;
-        top: 0;
-        left: 0;
-      }
-
-      @media screen and (max-width: 1024px){
-        img#bgimg {
-          left: 50%;
-          margin-left: -512px; }
-      }
-
-      div#content {
-        /* This is the only important rule */
-        /* We need our content to show up on top of the background */
-        position: relative; 
-
-
-        /* These have no effect on the functionality */
-        width: 500px;
-        margin: 0 auto;
-        padding: 20px;
-        font-family: helvetica, arial, sans-serif;
-        font-size: 10pt;
-        line-height: 16pt;
-
-      }
-      
-      img.resized{
-        margin-left:5px;
-        cursor: pointer; cursor: hand;
-        -moz-box-shadow: #000 4px 4px 10px;
-        -webkit-box-shadow: #000 4px 4px 10px;
-      }
-
-      body {
-        /* These rules have no effect on the functionality */
-        /* They are for styling only */
-        margin: 0;
-        padding: 20px 0 0 0;
-      }
-    </style> 
+    <link rel="stylesheet"  type="text/css" media="screen" href="/css/intra.css" /> 
   </head>
 
 <body>
@@ -69,76 +16,9 @@
     <p id="full-screen"></p>
 
   </div>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/ext.js"></script>
-    <script type="text/javascript">
-
-var gallery = {
-  
-  images: [],
-
-  flickrGet: function(options){
-    settings = $.extend({
-      flickr_resource_uri:"/photos/" ,
-      tag: ""
-    },options);
-
-    $.getJSON(settings.flickr_resource_uri+settings.tag, gallery.buildImageList);
-  },
-
-  buildImageList: function(data){
-   $.each(data.photos.photo, function (i,item){
-      gallery.images.push('http://farm' + item.farm + '.static.flickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_m.jpg');
-       });
-   gallery.preloadImages(gallery.images);              
-  },
-
-  preloadImages: function(images){
-    //console.log(images);
-     $.preload(images, {
-        init: function(loaded, total) {
-            $("#indicator").html("Loaded: "+loaded+"/"+total);
-        },
-        loaded: function(img, loaded, total) {
-            $("#indicator").html("Loaded: "+loaded+"/"+total);
-            $(img).addClass('resized');
-            $("#full-screen").append(img);
-            $('.resized').resize({maxHeight: 150 }).click(function(){
-              
-              image_str = $(this).attr('src').split('_m.jpg').join('_b.jpg');
-              $.preload([image_str], {
-                init: function(loaded, total){$("#indicator").html('Loading');},
-                loaded:function(img, loaded, total){$("#indicator").html('Loaded');$('#bgimg').attr('src',image_str);},
-                loaded_all: function(loaded, total){}
-              });
-               
-            });
-
-                     
-        },
-        loaded_all: function(loaded, total) {
-          $("#indicator").html("Loaded: "+loaded+"/"+total+". Done!");
-          $('#bgimg').attr('src', gallery.images[0].split('_m.jpg').join('_b.jpg'));
-        }
-    });
-
-  },
-
-  setupAjaxCallbacks: function(){
-    $('body').ajaxStart(function(){$('#status-text').show().text("Loading...");});                    
-    $('body').ajaxStop(function(){$('#status-text').fadeOut();});                    
-    $('body').ajaxError(function (event, xhr, ajaxOptions, thrownError) {
-      console.log("XHR Response: " + JSON.stringify(xhr));
-    });
-
-  }
-};
-
-$(function() {
-    gallery.setupAjaxCallbacks();
-    gallery.flickrGet({tag:"bruggi,3g0ph0t0"});
-});
-</script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/ext.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
 
 </body>
 </html>
