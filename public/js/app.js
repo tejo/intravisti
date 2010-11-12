@@ -28,29 +28,36 @@ var gallery = {
                 $("#indicator").html("Loaded: " + loaded + "/" + total);
                 $(img).addClass('resized');
                 $("#full-screen").append(img);
-                $('.resized').resize({
-                    maxHeight: 150
-                }).click(function () {
+            },
+            loaded_all: function (loaded, total) {
+                $("#indicator").html("Loaded: " + loaded + "/" + total + ". Done!");
+                $('#bgimg').attr('src', gallery.images[0].split('_m.jpg').join('_b.jpg')).fadeIn();
+
+                $('.resized').click(function (e) {
 
                     image_str = $(this).attr('src').split('_m.jpg').join('_b.jpg');
+                    
                     $.preload([image_str], {
                         init: function (loaded, total) {
                             $("#indicator").html('Loading');
                         },
-                        loaded: function (img, loaded, total) {$("#indicator").html('Loaded');$('#bgimg').attr('src', image_str);
-                    }, loaded_all: function (loaded, total) {}
+                        loaded: function (img, loaded, total) {
+                            $('#bgimg').fadeOut(200, function() {
+                              $(this).attr({'src':image_str}).fadeIn(500)
+                            });
+                            $("#indicator").html('Loaded');
+                        },
+                        loaded_all: function (loaded, total) {}
                     });
 
+                }).resize({
+                    maxHeight: 150
                 });
 
-
-        }, loaded_all: function (loaded, total) {
-            $("#indicator").html("Loaded: " + loaded + "/" + total + ". Done!");
-            $('#bgimg').attr('src', gallery.images[0].split('_m.jpg').join('_b.jpg'));
-        }
+            }
         });
 
-},
+    },
 
     setupAjaxCallbacks: function () {
         $('body').ajaxStart(function () {
@@ -64,7 +71,7 @@ var gallery = {
         });
 
     }
-    };
+};
 
 $(function () {
     gallery.setupAjaxCallbacks();
