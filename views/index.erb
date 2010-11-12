@@ -62,7 +62,7 @@
   </head>
 
 <body>
-<img src="images/bg.jpg" id="bgimg" /> 
+<img src="" id="bgimg" /> 
 <div id="content"> 
     <div id='status-text'></div>
     <p id="indicator">Waiting for click</p>
@@ -104,7 +104,14 @@ var gallery = {
             $(img).addClass('resized');
             $("#full-screen").append(img);
             $('.resized').resize({maxHeight: 150 }).click(function(){
-              $('#bgimg').attr('src', $(this).attr('src').split('_m.jpg').join('_b.jpg'));  
+              
+              image_str = $(this).attr('src').split('_m.jpg').join('_b.jpg');
+              $.preload([image_str], {
+                init: function(loaded, total){$("#indicator").html('Loading');},
+                loaded:function(img, loaded, total){$("#indicator").html('Loaded');$('#bgimg').attr('src',image_str);},
+                loaded_all: function(loaded, total){}
+              });
+               
             });
 
                      
