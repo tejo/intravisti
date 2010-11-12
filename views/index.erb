@@ -6,14 +6,34 @@
     <title>preloader</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta name="generator" content="Geany 0.16" />
+    <style>
+      *{border:0;margin:0;padding:0;outline:0}
+      html,body{width:100%;height:100%;overflow:hidden}
+
+      #holder{position:absolute;width:200%;height:200%;top:-50%;left:-50%}
+      #holder[id]{display:table}
+      #holder div{position:absolute;left:0;top:50%}
+      #holder[id] div{display:table-cell;vertical-align:middle;position:static}
+      #holder img{position:relative;top:-50%;margin:0 auto;display:block;-ms-interpolation-mode:bicubic;width:100%}
+      *:first-child+html #holder div{position:absolute}/*force IE 7 back to position:absoulte*/
+
+      #body{position:absolute;top:0;left:0;z-index:2;width:100%;height:100%;overflow:auto}
+    </style>
 </head>
 
 <body>
+
+<div id="holder"> 
+		<div><img id="bgimg" alt="" src="" /></div> 
+	</div> 
+	<div id="body"> 
+  
     <div id='status-text'></div>
     <p id="indicator">Waiting for click</p>
     <p id="full-screen">
     
     </p>
+  </div>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/ext.js"></script>
     <script type="text/javascript">
@@ -48,11 +68,15 @@ var gallery = {
             $("#indicator").html("Loaded: "+loaded+"/"+total);
             $(img).addClass('resized');
             $("#full-screen").append(img);
-            $('.resized').resize({maxHeight: 150 });
-            
+            $('.resized').resize({maxHeight: 150 }).click(function(){
+              $('#bgimg').attr('src', $(this).attr('src').split('_m.jpg').join('_b.jpg'));  
+            });
+
+                     
         },
         loaded_all: function(loaded, total) {
-            $("#indicator").html("Loaded: "+loaded+"/"+total+". Done!");
+          $("#indicator").html("Loaded: "+loaded+"/"+total+". Done!");
+          $('#bgimg').attr('src', gallery.images[0].split('_m.jpg').join('_b.jpg'));
         }
     });
 
@@ -71,6 +95,44 @@ var gallery = {
 $(function() {
     gallery.setupAjaxCallbacks();
     gallery.flickrGet({tag:"bruggi,3g0ph0t0"});
+
+
+    var db=document.body;
+	var img=document.getElementById('holder').getElementsByTagName('img')[0];
+	
+
+	var dbsize={}; //needed to store body size
+	var imgsrc=img.src; //needed to store images src
+	var keyStop=function(e){
+		var e=window.event||e||{};
+		var tag=e.target.tagName.toLowerCase();
+		if(tag!='textarea'&&!(tag=='input'&&(e.target.type=='text'||e.target.type=='password'))){ //are the user not writing?
+			if(e.keyCode==32||e.keyCode==39||e.keyCode==40){ //Did he press any of the "scrolling-keys"? (down, right, and space key)
+				if(e.preventDefault)e.preventDefault();
+				else e.returnValue=false;
+			}
+		}
+	}
+
+	if(this.addEventListener)window.addEventListener('keydown',keyStop,false);
+	else window.attachEvent('onkeydown',keyStop);
+
+	setInterval(function(){
+		window.scrollTo(0,0);
+		if(img.complete){ //check if image has loaded
+			if(db.clientWidth!=dbsize.w||db.clientHeight!=dbsize.h||img.src!=imgsrc){ //check if size or img size has changed
+				imgsrc=img.src; //store current src
+				dbsize.w=db.clientWidth; //store current body width
+				dbsize.h=db.clientHeight; //store current body height
+
+				var newwidth=Math.round(dbsize.h*(img.offsetWidth/img.offsetHeight)); //calculate new width based on height
+
+				img.style.width=(dbsize.w>newwidth?dbsize.w:newwidth)+'px'; //use the largest value of body-width and newwidht
+				//and this is the real trick: if there's no specified height, the height is automaticly calculated relative to the with
+			}
+		}
+	},300);
+
 });
 </script>
 
