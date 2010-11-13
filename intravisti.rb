@@ -54,7 +54,7 @@ def get_photos(tags)
   puts (tags)
   not_found(haml :not_found) if has_bad_tags?(tags)
 
-  return fetch(tags, :expire_in => 60 ) do
+  return fetch(tags, :expire_in => 60*60 ) do
     Flickr.new().connection(tags)
   end
 end
