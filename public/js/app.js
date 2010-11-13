@@ -82,38 +82,37 @@ var Intra = {
         Intra.bg_image = bg_image;
     },
     load_bg_image: function () {
-        Intra.loading();
         $.preload([Intra.bg_image.attr('src')], {
+            init: function(){
+                Intra.loading();
+            },
             loaded_all: function () {
-                Intra.loaded();
-                console.log('loaded');
                 setTimeout("Intra.bg_image.fadeIn()", 1000);
+                Intra.loaded();
             }
         });
     },
     loading: function () {
-        Intra.loader.show();
-    },
-    loaded: function () {
-        Intra.loader.hide();
-    },
-    init_loader: function (loader) {
-        Intra.loader = loader;
         $("*").mousemove(function (e) {
             Intra.loader.css({
                 'position': 'absolute',
                 'margin-left': e.pageX + 10,
                 'margin-top': e.pageY - 30,
-                'display': 'none',
+                'display': 'block',
                 'z-index': '999'
             });
         });
-
+    },
+    loaded: function () {
+        $("*").unbind('mousemove');
+        Intra.loader.hide();
+    },
+    init_loader: function (loader) {
+        Intra.loader = loader;
     }
 };
 
 $(function () {
-
     Intra.init($('#bgimg'));
     Intra.init_loader($('img#loader'));
     Intra.load_bg_image();
