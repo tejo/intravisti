@@ -10,6 +10,32 @@ img#bgimg {
 	top:0;
 	left:0;
 }
+div#pattern{
+	min-height:100%;
+	min-width:1024px;
+	width:100%;
+	height:auto;
+	position:fixed;
+	top:0;
+	left:0;
+  background-image:url('/images/bg.gif');
+  display:none;
+}
+div#left-column{
+  min-height:100%;
+	width:325px;
+	height:auto;
+	position:fixed;
+	top:0;
+	left:0;
+  background-image:url('/images/leftbg.png');
+  display:none;
+}
+img#logo{
+  position:fixed;
+	top:30px;
+	left:30px;
+}
 @media screen and (max-width:1024px) {
 	img#bgimg {
 		left:50%;

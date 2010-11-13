@@ -5,6 +5,11 @@
     %link(rel="stylesheet" type="text/css" media="screen" href="/css/intra.css")
 
   %body(class="#{@section || 'home'}")
+    %img#loader( src="/images/ajax-loader.gif")
+    %img#bgimg(style="display:none" src="#{@bg_image}")
+    #pattern
+    #left-column
+      %img#logo(src="/images/logo.png")
     =yield
 
     %script(src="/js/jquery.js")

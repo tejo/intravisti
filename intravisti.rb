@@ -20,7 +20,7 @@ end
 
 #fake delayed images
 get '/images-d/:image' do
-  sleep 3
+  sleep 6
   content_type "image/jpg"
   IO.readlines('public/images/'+params[:image],'')
 end
