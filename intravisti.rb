@@ -1,4 +1,6 @@
 require 'sinatra'
+require "haml"
+require "json"
 require './lib/flickr'
 
 TAGS = %w(bruggi 3g0ph0t0).freeze
@@ -14,7 +16,7 @@ end
 
 
 get '/' do
-  erb :index  
+  haml :index  
 end
 
 get '/:tags' do
