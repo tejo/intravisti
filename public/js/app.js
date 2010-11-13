@@ -23,6 +23,7 @@ var gallery = {
         $.preload(images, {
             init: function (loaded, total) {
                 $("#indicator").html("Loaded: " + loaded + "/" + total);
+                $("#full-screen").hide();
             },
             loaded: function (img, loaded, total) {
                 $("#indicator").html("Loaded: " + loaded + "/" + total);
@@ -33,7 +34,9 @@ var gallery = {
                 $("#indicator").html("Loaded: " + loaded + "/" + total + ". Done!");
                 $('#bgimg').attr('src', gallery.images[0].split('_m.jpg').join('_b.jpg')).fadeIn();
 
-                $('.resized').click(function (e) {
+                $('.resized').resize({
+                    maxHeight: 150
+                }).click(function (e) {
 
                     image_str = $(this).attr('src').split('_m.jpg').join('_b.jpg');
                     
@@ -50,9 +53,8 @@ var gallery = {
                         loaded_all: function (loaded, total) {}
                     });
 
-                }).resize({
-                    maxHeight: 150
                 });
+                setTimeout("$(\"#full-screen\").fadeIn()",2250);
 
             }
         });
