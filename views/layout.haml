@@ -1,0 +1,14 @@
+!!! Strict
+%html
+  %head
+    %title #{@title || 'intravisti'}
+    %link(rel="stylesheet" type="text/css" media="screen" href="/css/intra.css")
+
+  %body(class="#{@section || 'home'}")
+    =yield
+
+    %script(src="/js/jquery.js")
+    %script(src="/js/ext.js")
+    %script(src="/js/app.js")
+
+

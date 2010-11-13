@@ -18,11 +18,8 @@ var Intra = {
     loading: function () {
         $("*").mousemove(function (e) {
             Intra.loader.css({
-                'position': 'absolute',
                 'margin-left': e.pageX + 10,
-                'margin-top': e.pageY - 30,
-                'display': 'block',
-                'z-index': '999'
+                'margin-top': e.pageY - 30
             });
         });
     },

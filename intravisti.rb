@@ -3,6 +3,8 @@ require "haml"
 require "json"
 require './lib/flickr'
 
+BG_IMAGES = {:home => 'home.jpg', :landscape => 'landscape.jpg'}
+
 TAGS = %w(bruggi 3g0ph0t0 landscape).freeze
 
 use Rack::Auth::Basic do |username, password|
@@ -12,10 +14,11 @@ end
 configure do
   require 'dalli'
   CACHE = Dalli::Client.new()
-  set :haml, :format => :html5  
+  set :haml, :format => :html5
+  IMAGE_PATH = '/images/'  
 end
 
-#fake delayed image
+#fake delayed images
 get '/images-d/:image' do
   sleep 3
   content_type "image/jpg"
@@ -31,10 +34,13 @@ end
 
 
 get '/' do
+  @bg_image = IMAGE_PATH+BG_IMAGES[:home]
   haml :index  
 end
 
 get '/:tags' do
+  tag = params[:tags]
+  @bg_image = IMAGE_PATH+BG_IMAGES[tag.to_sym]
   get_photos(params[:tags])
   haml :photos 
 end
