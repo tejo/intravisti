@@ -40,8 +40,8 @@ end
 
 get '/:tags' do
   tag = params[:tags]
-  @bg_image = IMAGE_PATH+BG_IMAGES[tag.to_sym]
   get_photos(params[:tags])
+  @bg_image = IMAGE_PATH+BG_IMAGES[tag.to_sym]
   haml :photos 
 end
 
