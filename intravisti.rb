@@ -11,7 +11,8 @@ end
 
 configure do
   require 'dalli'
-  CACHE = Dalli::Client.new()  
+  CACHE = Dalli::Client.new()
+  set :haml, :format => :html5  
 end
 
 #fake delayed image
@@ -35,7 +36,7 @@ end
 
 get '/:tags' do
   get_photos(params[:tags])
-  erb :photos 
+  haml :photos 
 end
 
 get '/photos/:tags' do
@@ -45,7 +46,7 @@ end
 
 def get_photos(tags)
   puts (tags)
-  error 404, "Photos not found" if has_bad_tags?(tags)
+  not_found(haml :not_found) if has_bad_tags?(tags)
 
   return fetch(tags, :expire_in => 60 ) do
     Flickr.new().connection(tags)
