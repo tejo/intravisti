@@ -14,6 +14,13 @@ configure do
   CACHE = Dalli::Client.new()  
 end
 
+#fake delayed image
+get '/images-d/:image' do
+  sleep 3
+  content_type "image/jpg"
+  IO.readlines('public/images/'+params[:image],'')
+end
+
 
 get '/' do
   haml :index  
