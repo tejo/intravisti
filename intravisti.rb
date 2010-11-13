@@ -3,7 +3,7 @@ require "haml"
 require "json"
 require './lib/flickr'
 
-TAGS = %w(bruggi 3g0ph0t0).freeze
+TAGS = %w(bruggi 3g0ph0t0 landscape).freeze
 
 use Rack::Auth::Basic do |username, password|
   [username, password] == ['intra', 'visti']
@@ -20,6 +20,13 @@ get '/images-d/:image' do
   content_type "image/jpg"
   IO.readlines('public/images/'+params[:image],'')
 end
+
+
+get '/test/:tags' do
+  @tags = params[:tags]
+  erb :index 
+end
+
 
 
 get '/' do
