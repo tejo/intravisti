@@ -4,12 +4,10 @@
     %title intravisti
     %link(rel="stylesheet" type="text/css" media="screen" href="/css/intra.css")
 
-  %body
-    %img#bgimg(style="display:none" src="")
+  %body.home
+    %img#loader(style="display:none;margin-top:-1000px" src="/images/ajax-loader.gif")
+    %img#bgimg(style="display:none" src="/images/vibrazioni.jpg")
     #content
-      #status-text
-      %p#indicator wait...
-      %p#full-screen
 
     %script(src="/js/jquery.js")
     %script(src="/js/ext.js")

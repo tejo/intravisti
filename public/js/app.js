@@ -75,10 +75,54 @@ var gallery = {
     }
 };
 
+var Intra = {
+    bg_image: {},
+    loader: {},
+    init: function (bg_image) {
+        Intra.bg_image = bg_image;
+    },
+    load_bg_image: function () {
+        Intra.loading();
+        $.preload([Intra.bg_image.attr('src')], {
+            loaded_all: function () {
+                Intra.loaded();
+                console.log('loaded');
+                setTimeout("Intra.bg_image.fadeIn()", 1000);
+            }
+        });
+    },
+    loading: function () {
+        Intra.loader.show();
+    },
+    loaded: function () {
+        Intra.loader.hide();
+    },
+    init_loader: function (loader) {
+        Intra.loader = loader;
+        $("*").mousemove(function (e) {
+            Intra.loader.css({
+                'position': 'absolute',
+                'margin-left': e.pageX + 10,
+                'margin-top': e.pageY - 30,
+                'display': 'none',
+                'z-index': '999'
+            });
+        });
+
+    }
+};
+
 $(function () {
-    gallery.setupAjaxCallbacks();
-    gallery.flickrGet({
-        tag: "bruggi,3g0ph0t0"
-    });
+
+    Intra.init($('#bgimg'));
+    Intra.init_loader($('img#loader'));
+    Intra.load_bg_image();
+
+    //setTimeout("$(\"#bgimg\").fadeIn()",2250);
+    // gallery.setupAjaxCallbacks();
+    // gallery.flickrGet({
+    //     tag: "bruggi,3g0ph0t0"
+    // });
 });
+
 
