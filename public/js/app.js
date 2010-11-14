@@ -39,6 +39,7 @@ var Intra = {
         Intra.loader = loader;
     }
 };
+
 $(function () {
     Intra.init($('#bgimg'));
     Intra.init_loader($('img#loader'));
@@ -52,7 +53,7 @@ $(function () {
     function next() {
         current_img = current_img + 1;
         load_image(current_img);
-        if ((bgimages.length-1) == current_img) {
+        if ((bgimages.length - 1) == current_img) {
             current_img = -1;
         }
 
@@ -72,8 +73,9 @@ $(function () {
             loaded_all: function () {
                 Intra.loaded();
                 $('#pattern').hide();
+                $('#menu').fadeOut();
                 $('#bgimg').fadeOut(function () {
-                    $(this).attr('src', bgimages[index]).fadeIn();
+                    $(this).attr('src', bgimages[index]).fadeIn(); 
                 });
             }
         });
@@ -90,7 +92,34 @@ $(function () {
         }
     });
 
-});
+    //$('*').mousemove(function() {
+     //$('#menu').fadeIn();
+    //})
+
+    $('#menu a').css({
+        'background-position': "0 0"
+    }).mouseover(function () {
+        $(this).stop().animate({
+            'background-position': "-175px 0"
+        }, {
+            duration: 500
+        })
+    }).mouseout(function () {
+        $(this).stop().animate({
+            'background-position': "-300px 0"
+        }, {
+            duration: 200,
+            complete: function () {
+                $(this).css({
+                    'background-position': "0 0"
+                })
+            }
+        })
+    });
+
+
+})
+
 
 
 

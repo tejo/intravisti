@@ -36,6 +36,28 @@ img#logo{
 	top:30px;
 	left:30px;
 }
+ul#menu{
+  position:fixed;
+	top:184px;
+	left:30px;
+}
+
+	ul {list-style:none;margin:0;padding:0;}
+	li {margin:0;padding:0; display:block;}
+	li a {
+    padding:4px 4px 4px 5px;
+    line-height:26px;
+    color:#211d1a;
+    text-decoration:none;
+    font-family:helvetica,arial,sans-serif;
+	  font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+  }
+	li a {background:url('/images/bgmenu.png') repeat 0 0;}
+	li a:hover, li a:focus, li a:active {background-position:-200px 0;color:#969696;}
+
+
 @media screen and (max-width:1024px) {
 	img#bgimg {
 		left:50%;
