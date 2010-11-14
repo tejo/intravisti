@@ -34,7 +34,7 @@ end
 
 
 get '/' do
-  @bg_images = BG_IMAGES.collect {|o| IMAGE_PATH+o[1] }.to_json
+  @bg_images = BG_IMAGES.collect {|o| IMAGE_PATH+o[1] }.sort.to_json
   @bg_image = IMAGE_PATH+BG_IMAGES[:home]
   haml :index  
 end
