@@ -33,26 +33,64 @@ var Intra = {
     },
     loaded: function () {
         $("html").unbind('mousemove');
-        Intra.loader.hide();
+        Intra.loader.css({'margin-top': -1000});
     },
     init_loader: function (loader) {
         Intra.loader = loader;
     }
 };
-
 $(function () {
     Intra.init($('#bgimg'));
     Intra.init_loader($('img#loader'));
     Intra.load_bg_image();
-    
-    $('img#logo').click(function  () {
-       $('#pattern').toggle();
+
+    var current_img = 0;
+    $('img#logo').click(function () {
+        next();
     });
-    //setTimeout("$(\"#bgimg\").fadeIn()",2250);
-    // gallery.setupAjaxCallbacks();
-    // gallery.flickrGet({
-    //     tag: "bruggi,3g0ph0t0"
-    // });
+
+    function next() {
+        current_img = current_img + 1;
+        load_image(current_img);
+        if ((bgimages.length-1) == current_img) {
+            current_img = -1;
+        }
+
+    }
+
+    function prev() {
+        if (current_img == -1 || current_img == 0) {
+            current_img = bgimages.length;
+        }
+        current_img = current_img - 1;
+        load_image(current_img);
+    }
+
+    function load_image(index) {
+        Intra.loading();
+        $.preload([bgimages[index]], {
+            loaded_all: function () {
+                Intra.loaded();
+                $('#pattern').hide();
+                $('#bgimg').fadeOut(function () {
+                    $(this).attr('src', bgimages[index]).fadeIn();
+                });
+            }
+        });
+    }
+
+    $('body').keydown(function (e) {
+        if (e.keyCode == '32') {
+            $('#pattern').toggle()
+        } else if (e.keyCode == '39') {
+            next();
+        } else if (e.keyCode == '37') {
+            prev();
+        }
+    });
+
 });
+
+
 
 
