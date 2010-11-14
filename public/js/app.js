@@ -79,9 +79,10 @@ $(function () {
         });
     }
 
-    $('body').keydown(function (e) {
+    $('html').bind('keyup  keypress', function (e) {
         if (e.keyCode == '32') {
             $('#pattern').toggle()
+            e.preventDefault();
         } else if (e.keyCode == '39') {
             next();
         } else if (e.keyCode == '37') {
