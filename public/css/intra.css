@@ -1,15 +1,14 @@
 img#bgimg {
-	/* Set rules to fill background */
-	min-height:100%;
-	min-width:1024px;
-	/* Set up proportionate scaling */
-	width:100%;
-	height:auto;
-	/* Set up positioning */
-	position:fixed;
-	top:0;
-	left:0;
+min-height: 100%;
+min-width: 1280px;
+width: 100%;
+height: auto;
+position: fixed;
+top: 0;
+left: 0;
+z-index:-9999;
 }
+
 div#pattern{
 	min-height:100%;
 	min-width:1024px;
@@ -57,13 +56,6 @@ ul#menu{
 	li a {background:url('/images/bgmenu.png') repeat 0 0;}
 	li a:hover, li a:focus, li a:active {background-position:-200px 0;color:#969696;}
 
-
-@media screen and (max-width:1024px) {
-	img#bgimg {
-		left:50%;
-		margin-left: -512px;
-	}
-}
 div#content {
 	/* This is the only important rule */
 	/* We need our content to show up on top of the background */
