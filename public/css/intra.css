@@ -2,7 +2,7 @@
   font-family: 'Molengo';
   font-style: normal;
   font-weight: normal;
-  src: local('Molengo'), url('/css/molengo.ttf') format('truetype');
+  src: local('Molengo'), url('/css/molengo.css') format('truetype');
 }
 
 img#bgimg {
