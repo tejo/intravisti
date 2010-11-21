@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Molengo';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Molengo'), url('/css/molengo.ttf') format('truetype');
+}
+
 img#bgimg {
 min-height: 100%;
 min-width: 1280px;
@@ -39,22 +46,24 @@ ul#menu{
   position:fixed;
 	top:184px;
 	left:30px;
+  display:none;
 }
 
 	ul {list-style:none;margin:0;padding:0;}
-	li {margin:0;padding:0; display:block;}
+	li {margin:15px 0 0;padding:0; display:block;}
 	li a {
-    padding:4px 4px 4px 5px;
+    padding:2px 6px 2px 6px;
     line-height:26px;
     color:#211d1a;
     text-decoration:none;
-    font-family:helvetica,arial,sans-serif;
-	  font-size:11px;
-    text-transform:uppercase;
+    font-family:'Molengo',arial,sans-serif;
+	  line-height:16px;
+	  font-size:16px;
+    text-transform:capitalize;
     letter-spacing:2px;
   }
 	li a {background:url('/images/bgmenu.png') repeat 0 0;}
-	li a:hover, li a:focus, li a:active {background-position:-200px 0;color:#969696;}
+	li a:hover, li a:focus, li a:active {background-position:-200px 0;color:#FFF;}
 
 div#content {
 	/* This is the only important rule */
