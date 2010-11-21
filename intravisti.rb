@@ -5,7 +5,7 @@ require './lib/flickr'
 
 BG_IMAGES = {:home => 'home.jpg', :landscape => 'landscape.jpg', :macro1 => 'macro1.jpg', :macro2 => 'macro2.jpg' }
 IMAGE_PATH = '/images/' 
-TAGS = %w(bruggi 3g0ph0t0 landscape macro1 macro2).freeze
+TAGS = %w(bruggi landscape macro1 macro2).freeze
 
 
 use Rack::Auth::Basic do |username, password|
@@ -18,20 +18,18 @@ configure do
   set :haml, :format => :html5
 end
 
+helpers do
+  def flkrimg(photo)
+    "http://farm#{photo['farm']}.static.flickr.com/#{photo['server']}/#{photo['id']}_#{photo['secret']}_m.jpg"
+  end
+end
+
 #fake delayed images
 get '/images-d/:image' do
   sleep 6
   content_type "image/jpg"
   IO.readlines('public/images/'+params[:image],'')
 end
-
-
-get '/test/:tags' do
-  @tags = params[:tags]
-  erb :index 
-end
-
-
 
 get '/' do
   @bg_images = BG_IMAGES.collect {|o| IMAGE_PATH+o[1] }.sort.to_json
@@ -41,7 +39,7 @@ end
 
 get '/:tags' do
   tag = params[:tags]
-  get_photos(params[:tags])
+  @photos = get_photos(params[:tags])
   @bg_image = IMAGE_PATH+BG_IMAGES[tag.to_sym]
   haml :photos 
 end
@@ -56,7 +54,7 @@ def get_photos(tags)
   not_found(haml :not_found) if has_bad_tags?(tags)
 
   return fetch(tags, :expire_in => 60*60 ) do
-    Flickr.new().connection(tags)
+    JSON.parse(Flickr.new().connection(tags))
   end
 end
 
