@@ -19,7 +19,9 @@ var Intra = {
     load_navbar: function(){
         $.preload(['/images/logo.png'],{
             loaded_all: function(){
-                $('#left-column').fadeIn();  
+                $('#left-column').fadeIn(function(){
+                  setTimeout(function(){$('ul#menu').fadeIn()},500)
+                });  
               }
         });
     },
@@ -102,7 +104,7 @@ $(function () {
         $(this).stop().animate({
             'background-position': "-175px 0"
         }, {
-            duration: 500
+            duration: 200
         })
     }).mouseout(function () {
         $(this).stop().animate({
